@@ -1,6 +1,6 @@
 import * as React from "react"
-import Layout from "../components/layout"
-import { graphql } from "gatsby"
+import Layout from "../../components/layout"
+import { Link, graphql } from "gatsby"
 const ArtistPage = ({
   data: {
     allWpArtist: { edges },
@@ -9,11 +9,14 @@ const ArtistPage = ({
   return (
     <Layout pageTitle="Artists of Bosteels Agency">
       {edges.map(item => {
+        const slug = item.node.slug
         const artist = item.node.artistMeta
         return (
-          <p key={item.node.id}>
-            {artist.firstName} {artist.lastName}
-          </p>
+          <Link to={`/artists/${slug}`}>
+            <p key={item.node.id}>
+              {artist.firstName} {artist.lastName}
+            </p>
+          </Link>
         )
       })}
     </Layout>
@@ -30,6 +33,8 @@ export const query = graphql`
             lastName
             artistName
           }
+          id
+          slug
         }
       }
     }
